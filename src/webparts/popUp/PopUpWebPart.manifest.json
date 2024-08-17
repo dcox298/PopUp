@@ -19,10 +19,11 @@
     "groupId": "5c03119e-3074-46fd-976b-c60198311f70", // Advanced
     "group": { "default": "Advanced" },
     "title": { "default": "PopUp" },
-    "description": { "default": "PopUp description" },
+    "description": { "default": "PopUp App Config" },
     "officeFabricIconFontName": "Page",
     "properties": {
-      "description": "PopUp"
+      "description": "PopUp",
+      "buttonText" : "Click Me"
     }
   }]
 }

@@ -2,6 +2,8 @@ declare interface IPopUpWebPartStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
   DescriptionFieldLabel: string;
+  buttonTextFieldLabel:string;
+  popUpTextFieldLabel:string;
   AppLocalEnvironmentSharePoint: string;
   AppLocalEnvironmentTeams: string;
   AppLocalEnvironmentOffice: string;

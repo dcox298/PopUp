@@ -14,6 +14,8 @@ import { IPopUpProps } from './components/IPopUpProps';
 
 export interface IPopUpWebPartProps {
   description: string;
+  buttonText: string;
+  popUpText:string;
 }
 
 export default class PopUpWebPart extends BaseClientSideWebPart<IPopUpWebPartProps> {
@@ -26,6 +28,8 @@ export default class PopUpWebPart extends BaseClientSideWebPart<IPopUpWebPartPro
       PopUp,
       {
         description: this.properties.description,
+        buttonText: this.properties.buttonText,
+        popUpText:this.properties.popUpText,
         isDarkTheme: this._isDarkTheme,
         environmentMessage: this._environmentMessage,
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
@@ -108,9 +112,18 @@ export default class PopUpWebPart extends BaseClientSideWebPart<IPopUpWebPartPro
             {
               groupName: strings.BasicGroupName,
               groupFields: [
+                PropertyPaneTextField('buttonText',{
+                  label:strings.buttonTextFieldLabel,         
+                }),
                 PropertyPaneTextField('description', {
-                  label: strings.DescriptionFieldLabel
-                })
+                  label: strings.DescriptionFieldLabel,
+                  multiline:true,
+                }),
+                PropertyPaneTextField('popUpText', {
+                  label: strings.popUpTextFieldLabel,
+                  multiline:true,
+                }),
+                
               ]
             }
           ]

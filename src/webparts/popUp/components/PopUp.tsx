@@ -4,12 +4,15 @@ import type { IPopUpProps } from './IPopUpProps';
 //import { escape } from '@microsoft/sp-lodash-subset';
 import { IStackItemStyles, IStackStyles, IStackTokens, Stack } from '@fluentui/react/lib/Stack';
 import { DefaultPalette } from '@fluentui/react/lib/Theme';
-import { IButtonStyles, Modal, PrimaryButton } from '@fluentui/react';
+import { IButtonStyles, Modal, PrimaryButton,  } from '@fluentui/react';
 import { IPopUpState } from './IPopUpState';
-
+import { RichText } from "@pnp/spfx-controls-react/lib/RichText";
 
 
 // Styles definition
+const textStyle:React.CSSProperties={
+  color:'black'
+}
 const stackStyles: IStackStyles = {
   root: {
     background: DefaultPalette.themePrimary,
@@ -20,10 +23,8 @@ const stackItemStyles: IStackItemStyles = {
   root: {
     alignItems: 'center',
     background: DefaultPalette.themeLighterAlt,
-    color: DefaultPalette.white,
     display: 'flex',
     justifyContent: 'center',
-    margin:15
   },
 };
 const buttonStyles:IButtonStyles = {
@@ -63,7 +64,9 @@ export default class PopUp extends React.Component<IPopUpProps, IPopUpState> {
 
   public render(): React.ReactElement<IPopUpProps> {
     const {
-      //description,
+      description,
+      buttonText,
+      popUpText
       //isDarkTheme,
       //environmentMessage,
       //hasTeamsContext,
@@ -75,7 +78,10 @@ export default class PopUp extends React.Component<IPopUpProps, IPopUpState> {
       <Stack enableScopedSelectors tokens={outerStackTokens}>
         <Stack enableScopedSelectors styles={stackStyles} tokens={innerStackTokens}>
           <Stack.Item grow={3} styles={stackItemStyles}>
-            <PrimaryButton text='text' onClick={this.showModal} styles={buttonStyles}/>
+            <RichText style={textStyle} value={description} isEditMode={false}/>
+          </Stack.Item>
+          <Stack.Item grow={1} styles={stackItemStyles}>
+            <PrimaryButton text={buttonText} onClick={this.showModal} styles={buttonStyles}/>
           </Stack.Item>
         </Stack>
       </Stack>
@@ -87,7 +93,7 @@ export default class PopUp extends React.Component<IPopUpProps, IPopUpState> {
         //containerClassName={contentStyles.container}
         //dragOptions={isDraggable ? dragOptions : undefined}
       >
-        
+        <RichText style={textStyle} value={popUpText} isEditMode={false}/>
       </Modal>
       </>
     );
