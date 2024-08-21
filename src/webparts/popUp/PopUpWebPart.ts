@@ -3,6 +3,8 @@ import * as ReactDom from 'react-dom';
 import { Version } from '@microsoft/sp-core-library';
 import {
   type IPropertyPaneConfiguration,
+  PropertyPaneChoiceGroup,
+  PropertyPaneDropdown,
   PropertyPaneTextField
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
@@ -15,14 +17,20 @@ import { IPopUpProps } from './components/IPopUpProps';
 export interface IPopUpWebPartProps {
 
   buttonText: string;
+  buttonType:string;
+  buttonAlignment:"auto" | "center" | "baseline" | "stretch" | "start" | "end"|undefined;
+
   popUpText:string;
+
+  backgroundColor:string;
+
 
 }
 
 export default class PopUpWebPart extends BaseClientSideWebPart<IPopUpWebPartProps> {
 
   private _isDarkTheme: boolean = false;
-  private _environmentMessage: string = '';
+
 
 
 
@@ -41,11 +49,11 @@ export default class PopUpWebPart extends BaseClientSideWebPart<IPopUpWebPartPro
         buttonText: this.properties.buttonText,
         popUpText:this.properties.popUpText,
         isDarkTheme: this._isDarkTheme,
-        environmentMessage: this._environmentMessage,
-        hasTeamsContext: !!this.context.sdks.microsoftTeams,
-        userDisplayName: this.context.pageContext.user.displayName,
         displayMode:this.displayMode,
-        onTextChange:this.onTextChange
+        onTextChange:this.onTextChange,
+        backgroundColor:this.properties.backgroundColor,
+        buttonType:this.properties.buttonType,
+        buttonAlignment:this.properties.buttonAlignment
       }
     );
 
@@ -54,7 +62,7 @@ export default class PopUpWebPart extends BaseClientSideWebPart<IPopUpWebPartPro
 
   protected onInit(): Promise<void> {
     return this._getEnvironmentMessage().then(message => {
-      this._environmentMessage = message;
+      //this._environmentMessage = message;
     });
   }
 
@@ -110,18 +118,7 @@ export default class PopUpWebPart extends BaseClientSideWebPart<IPopUpWebPartPro
   protected get dataVersion(): Version {
     return Version.parse('1.0');
   }
-//   protected onBeforeSerialize(): void {
-//     super.onBeforeSerialize();
-//     // modify the web part's properties here - the modified version will be saved
-//     //this.properties.description = this.properties.myRichText
-// }
 
-// protected onAfterDeserialize(deserializedObject: any, dataVersion: Version): IPopUpWebPartProps {
-//     // handle loaded data object here, modify/convert it if necessary
-//     console.log(JSON.stringify(deserializedObject));
-//     console.log(JSON.stringify(dataVersion));
-//     return super.onAfterDeserialize(deserializedObject, dataVersion);
-// }
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     return {
       pages: [
@@ -136,6 +133,15 @@ export default class PopUpWebPart extends BaseClientSideWebPart<IPopUpWebPartPro
                 PropertyPaneTextField('buttonText',{
                   label:strings.buttonTextFieldLabel,
                 }),
+                PropertyPaneDropdown('buttonType',{
+                  label:'Button Type',
+                  options:[{key:'Primary',text:'Primary'},{key:'Default',text:'Default'}]
+                }),
+                PropertyPaneChoiceGroup('buttonAlignment',{
+                  label:"Button Alignment",
+                  options:[{key:'start',text:'Start'},{key:'center',text:'Center'},{key:'end',text:'End'}]
+
+                })
               ]
             }
           ]

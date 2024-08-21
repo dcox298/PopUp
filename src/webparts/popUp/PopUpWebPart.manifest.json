@@ -23,7 +23,10 @@
     "officeFabricIconFontName": "Page",
     "properties": {
       "buttonText" : "Click Me!",
-      "popUpText" : ""
+      "popUpText" : "",
+      "buttonType":"Primary",
+      "buttonAlignment":"center",
+      "backgroundColor":""
     }
   }]
 }

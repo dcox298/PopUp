@@ -4,7 +4,7 @@ import type { IPopUpProps } from './IPopUpProps';
 //import { escape } from '@microsoft/sp-lodash-subset';
 import { IStackItemStyles, IStackStyles, IStackTokens, Stack } from '@fluentui/react/lib/Stack';
 
-import { DefaultEffects, IButtonStyles, Modal, PrimaryButton,  } from '@fluentui/react';
+import { DefaultButton, DefaultEffects, IButtonStyles, Modal, PrimaryButton,  } from '@fluentui/react';
 import { IPopUpState } from './IPopUpState';
 import { RichText } from "@pnp/spfx-controls-react/lib/RichText";
 
@@ -65,7 +65,9 @@ export default class PopUp extends React.Component<IPopUpProps, IPopUpState> {
     const {
       buttonText,
       popUpText,
-      displayMode
+      displayMode,
+      buttonType,
+      buttonAlignment
     } = this.props;
 
     return (
@@ -77,8 +79,15 @@ export default class PopUp extends React.Component<IPopUpProps, IPopUpState> {
               <RichText style={textStyle} value={popUpText} onChange={(text)=>this.props.onTextChange(text)} isEditMode={displayMode===2?true:false} label='PopUp Content'/>
             </Stack.Item>
           )}
-          <Stack.Item styles={stackItemStyles}>
-            <PrimaryButton text={buttonText} onClick={this.showModal} styles={buttonStyles}/>
+          <Stack.Item styles={stackItemStyles} align={buttonAlignment}>
+            {buttonType==='Primary'?(
+              <PrimaryButton text={buttonText} onClick={this.showModal} styles={buttonStyles}/>
+            ):
+            (
+              <DefaultButton text={buttonText} onClick={this.showModal} styles={buttonStyles} />
+            )
+          }
+            
           </Stack.Item>
         </Stack>
       </Stack>
