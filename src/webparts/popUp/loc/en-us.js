@@ -1,7 +1,7 @@
 define([], function() {
   return {
-    "PropertyPaneDescription": "Description",
-    "BasicGroupName": "Group Name",
+    "PropertyPaneDescription": "Configure the PopUp App",
+    "BasicGroupName": "The Basics",
     "DescriptionFieldLabel": "Description Field",
     "buttonTextFieldLabel":"Button Text",
     "popUpTextFieldLabel":"PopUp Modal Text",
