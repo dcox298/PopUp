@@ -3,26 +3,25 @@ import * as React from 'react';
 import type { IPopUpProps } from './IPopUpProps';
 //import { escape } from '@microsoft/sp-lodash-subset';
 import { IStackItemStyles, IStackStyles, IStackTokens, Stack } from '@fluentui/react/lib/Stack';
-import { DefaultPalette } from '@fluentui/react/lib/Theme';
-import { IButtonStyles, Modal, PrimaryButton,  } from '@fluentui/react';
+
+import { DefaultEffects, IButtonStyles, Modal, PrimaryButton,  } from '@fluentui/react';
 import { IPopUpState } from './IPopUpState';
 import { RichText } from "@pnp/spfx-controls-react/lib/RichText";
 
 
 // Styles definition
 const textStyle:React.CSSProperties={
-  color:'black'
+  color:'black',
+  width:'100%'
 }
 const stackStyles: IStackStyles = {
   root: {
-    background: DefaultPalette.themePrimary,
-    //height: 250,
+    boxShadow:DefaultEffects.elevation8
   },
 };
 const stackItemStyles: IStackItemStyles = {
   root: {
     alignItems: 'center',
-    background: DefaultPalette.themeLighterAlt,
     display: 'flex',
     justifyContent: 'center',
   },
@@ -61,26 +60,24 @@ export default class PopUp extends React.Component<IPopUpProps, IPopUpState> {
       isModalOpen:true
     })
   }
-
+  
   public render(): React.ReactElement<IPopUpProps> {
     const {
-      description,
       buttonText,
-      popUpText
-      //isDarkTheme,
-      //environmentMessage,
-      //hasTeamsContext,
-      //userDisplayName
+      popUpText,
+      displayMode
     } = this.props;
 
     return (
       <>
       <Stack enableScopedSelectors tokens={outerStackTokens}>
         <Stack enableScopedSelectors styles={stackStyles} tokens={innerStackTokens}>
-          <Stack.Item grow={3} styles={stackItemStyles}>
-            <RichText style={textStyle} value={description} isEditMode={false}/>
-          </Stack.Item>
-          <Stack.Item grow={1} styles={stackItemStyles}>
+          {displayMode==2 && (
+            <Stack.Item grow styles={stackItemStyles}>
+              <RichText style={textStyle} value={popUpText} onChange={(text)=>this.props.onTextChange(text)} isEditMode={displayMode===2?true:false} label='PopUp Content'/>
+            </Stack.Item>
+          )}
+          <Stack.Item styles={stackItemStyles}>
             <PrimaryButton text={buttonText} onClick={this.showModal} styles={buttonStyles}/>
           </Stack.Item>
         </Stack>
@@ -90,10 +87,8 @@ export default class PopUp extends React.Component<IPopUpProps, IPopUpState> {
         titleAriaId={'1'}
         isOpen={this.state.isModalOpen}
         onDismiss={this.hideModal}
-        //containerClassName={contentStyles.container}
-        //dragOptions={isDraggable ? dragOptions : undefined}
       >
-        <RichText style={textStyle} value={popUpText} isEditMode={false}/>
+        <RichText style={textStyle} value={popUpText} isEditMode={false} />
       </Modal>
       </>
     );

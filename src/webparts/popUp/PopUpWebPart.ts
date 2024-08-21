@@ -13,9 +13,10 @@ import PopUp from './components/PopUp';
 import { IPopUpProps } from './components/IPopUpProps';
 
 export interface IPopUpWebPartProps {
-  description: string;
+
   buttonText: string;
   popUpText:string;
+
 }
 
 export default class PopUpWebPart extends BaseClientSideWebPart<IPopUpWebPartProps> {
@@ -23,17 +24,28 @@ export default class PopUpWebPart extends BaseClientSideWebPart<IPopUpWebPartPro
   private _isDarkTheme: boolean = false;
   private _environmentMessage: string = '';
 
+
+
+  /**
+   * onTextChange
+   */
+  private onTextChange = (newText: string) => {
+    this.properties.popUpText = newText;
+    return newText;
+  }
+
   public render(): void {
     const element: React.ReactElement<IPopUpProps> = React.createElement(
       PopUp,
       {
-        description: this.properties.description,
         buttonText: this.properties.buttonText,
         popUpText:this.properties.popUpText,
         isDarkTheme: this._isDarkTheme,
         environmentMessage: this._environmentMessage,
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
-        userDisplayName: this.context.pageContext.user.displayName
+        userDisplayName: this.context.pageContext.user.displayName,
+        displayMode:this.displayMode,
+        onTextChange:this.onTextChange
       }
     );
 
@@ -45,8 +57,6 @@ export default class PopUpWebPart extends BaseClientSideWebPart<IPopUpWebPartPro
       this._environmentMessage = message;
     });
   }
-
-
 
   private _getEnvironmentMessage(): Promise<string> {
     if (!!this.context.sdks.microsoftTeams) { // running in Teams, office.com or Outlook
@@ -100,7 +110,18 @@ export default class PopUpWebPart extends BaseClientSideWebPart<IPopUpWebPartPro
   protected get dataVersion(): Version {
     return Version.parse('1.0');
   }
+//   protected onBeforeSerialize(): void {
+//     super.onBeforeSerialize();
+//     // modify the web part's properties here - the modified version will be saved
+//     //this.properties.description = this.properties.myRichText
+// }
 
+// protected onAfterDeserialize(deserializedObject: any, dataVersion: Version): IPopUpWebPartProps {
+//     // handle loaded data object here, modify/convert it if necessary
+//     console.log(JSON.stringify(deserializedObject));
+//     console.log(JSON.stringify(dataVersion));
+//     return super.onAfterDeserialize(deserializedObject, dataVersion);
+// }
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     return {
       pages: [
@@ -113,17 +134,8 @@ export default class PopUpWebPart extends BaseClientSideWebPart<IPopUpWebPartPro
               groupName: strings.BasicGroupName,
               groupFields: [
                 PropertyPaneTextField('buttonText',{
-                  label:strings.buttonTextFieldLabel,         
+                  label:strings.buttonTextFieldLabel,
                 }),
-                PropertyPaneTextField('description', {
-                  label: strings.DescriptionFieldLabel,
-                  multiline:true,
-                }),
-                PropertyPaneTextField('popUpText', {
-                  label: strings.popUpTextFieldLabel,
-                  multiline:true,
-                }),
-                
               ]
             }
           ]

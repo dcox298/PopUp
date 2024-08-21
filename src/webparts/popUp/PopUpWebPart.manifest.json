@@ -22,8 +22,8 @@
     "description": { "default": "PopUp App Config" },
     "officeFabricIconFontName": "Page",
     "properties": {
-      "description": "PopUp",
-      "buttonText" : "Click Me"
+      "buttonText" : "Click Me!",
+      "popUpText" : ""
     }
   }]
 }
